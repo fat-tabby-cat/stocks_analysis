@@ -222,18 +222,18 @@ def stock_analysis(ticker_name,start_date, end_date, interval):
             df["VMA10"]=df["Volume"].rolling(window = 10).mean()
             df["VMA20"]=df["Volume"].rolling(window = 20).mean()
             subtitle2=("當日各均量為：",
-                      "5MA: "+ str(df["VMA5"][-1].round(4)),
-                      "10MA: "+ str(df["VMA10"][-1].round(4)),
-                      "20MA: "+ str(df["VMA20"][-1].round(4)),
+                      "5MA: "+ str(df["VMA5"].iloc[-1].round(4)),
+                      "10MA: "+ str(df["VMA10"].iloc[-1].round(4)),
+                      "20MA: "+ str(df["VMA20"].iloc[-1].round(4)),
                       )               
             subtitle=("當日各均線為：", 
-                  "5MA: "+ str(df["SMA5"][-1].round(4)),
-                  "10MA: "+ str(df["SMA10"][-1].round(4)),
-                  "20MA: "+ str(df["SMA20"][-1].round(4)),
-                  "60MA: "+ str(df["SMA60"][-1].round(4)),
-                  "100MA: "+ str(df["SMA100"][-1].round(4)),
-                  "200MA: "+ str(df["SMA200"][-1].round(4)),
-                  "1000MA: "+ str(df["SMA1000"][-1].round(4)),# sep="\n"
+                  "5MA: "+ str(df["SMA5"].iloc[-1].round(4)),
+                  "10MA: "+ str(df["SMA10"].iloc[-1].round(4)),
+                  "20MA: "+ str(df["SMA20"].iloc[-1].round(4)),
+                  "60MA: "+ str(df["SMA60"].iloc[-1].round(4)),
+                  "100MA: "+ str(df["SMA100"].iloc[-1].round(4)),
+                  "200MA: "+ str(df["SMA200"].iloc[-1].round(4)),
+                  "1000MA: "+ str(df["SMA1000"].iloc[-1].round(4)),# sep="\n"
                   )                    
             print(subtitle2)
             print(subtitle)
@@ -245,12 +245,12 @@ def stock_analysis(ticker_name,start_date, end_date, interval):
             df["SMA34"] = df['Close'].rolling(window = 34).mean()
             df["SMA55"] = df['Close'].rolling(window = 55).mean()
             subtitle=("當週各均線為：",
-            "3MA: "+ str(df["SMA3"][-1].round(4)),
-            "8MA: "+ str(df["SMA8"][-1].round(4)),
-            "13MA: "+ str(df["SMA13"][-1].round(4)),
-            "21MA: "+ str(df["SMA21"][-1].round(4)),
-            "34MA: "+ str(df["SMA34"][-1].round(4)),
-            "55MA: "+ str(df["SMA55"][-1].round(4)),# sep="\n")
+            "3MA: "+ str(df["SMA3"].iloc[-1].round(4)),
+            "8MA: "+ str(df["SMA8"].iloc[-1].round(4)),
+            "13MA: "+ str(df["SMA13"].iloc[-1].round(4)),
+            "21MA: "+ str(df["SMA21"].iloc[-1].round(4)),
+            "34MA: "+ str(df["SMA34"].iloc[-1].round(4)),
+            "55MA: "+ str(df["SMA55"].iloc[-1].round(4)),# sep="\n")
             )        
             print(subtitle)
         elif interval == "1mo":
@@ -261,20 +261,20 @@ def stock_analysis(ticker_name,start_date, end_date, interval):
             df["SMA12"] = df['Close'].rolling(window = 12).mean()
             df["SMA120"] = df['Close'].rolling(window = 120).mean()
             subtitle=("當月各均線為：",
-            "1MA: "+ str(df["SMA1"][-1].round(4)),      
-            "2MA: "+ str(df["SMA2"][-1].round(4)),
-            "3MA: "+ str(df["SMA3"][-1].round(4)),
-            "6MA: "+ str(df["SMA6"][-1].round(4)),
-            "12MA: "+ str(df["SMA12"][-1].round(4)),
-            "120MA: "+ str(df["SMA120"][-1].round(4)), #sep="\n"
+            "1MA: "+ str(df["SMA1"].iloc[-1].round(4)),      
+            "2MA: "+ str(df["SMA2"].iloc[-1].round(4)),
+            "3MA: "+ str(df["SMA3"].iloc[-1].round(4)),
+            "6MA: "+ str(df["SMA6"].iloc[-1].round(4)),
+            "12MA: "+ str(df["SMA12"].iloc[-1].round(4)),
+            "120MA: "+ str(df["SMA120"].iloc[-1].round(4)), #sep="\n"
             )        
             print(subtitle)
         elif interval =="30m":
             df["SMA20"] = df['Close'].rolling(window = 20).mean()
             df["SMA60"] = df['Close'].rolling(window = 60).mean()
             subtitle=("當30分各均線為：",
-            "20MA: "+ str(df["SMA20"][-1].round(4)),      
-            "60MA: "+ str(df["SMA60"][-1].round(4)) ,# sep="\n"
+            "20MA: "+ str(df["SMA20"].iloc[-1].round(4)),      
+            "60MA: "+ str(df["SMA60"].iloc[-1].round(4)) ,# sep="\n"
             )            
             print(subtitle)
         return df
@@ -424,7 +424,7 @@ def KDJ_Beta3(ticker_name, start_date, end_date, interval):
         df["D"] = df["K"].ewm(com=2, adjust=False).mean()
         df["J"] = 3 * df["K"] - 2 * df["D"]
         if interval=="1wk":
-            last_WK_3MA=df["SMA3"][-1]
+            last_WK_3MA=df["SMA3"].iloc[-1]
             return df, last_WK_3MA
         elif interval=="1mo":
             bull_or_bear_boundary=(df.iloc[-3]["High"]+df.iloc[-3]["Low"])/2
@@ -481,14 +481,14 @@ def stock_analysis_mixed(ticker_name, start_date, end_date, month_line_show_year
         #https://stackoverflow.com/questions/4130922/how-to-increment-datetime-by-custom-months-in-python-without-using-library
         #https://stackoverflow.com/questions/4130922/how-to-increment-datetime-by-custom-months-in-python-without-using-library
         #df5, ma_2h=stock_analysis_in_period(ticker_name,"1mo","1h")        
-        if df_bbi["Close"][-1]<last_WK_3MA:
+        if df_bbi["Close"].iloc[-1]<last_WK_3MA:
              week_line_check="未通過高於3週線強勢檢核"
 # #20250528 請將其列入選股程序中            
         else:
              week_line_check="通過高於3週線強勢檢核"
 #             week3_check.append(ticker_name)
 #         print(week_line_check)
-        if df_bbi["Close"][-1]<bull_or_bear_boundary:
+        if df_bbi["Close"].iloc[-1]<bull_or_bear_boundary:
              month_check="月線趨勢仍然疲弱"
         else:
              month_check="月線強勢"
@@ -529,7 +529,7 @@ def stock_analysis_chiu_guan_simplified(ticker_name,start_date,end_date):
     #midbound=midbound.dropna()
         midbound=pd.DataFrame(df["midbound"])
         chiu_guan=midbound.iloc[-1,-1].round(4)    
-        today_close=df["Close"][-1]
+        today_close=df["Close"].iloc[-1]
         print(ticker_name,"截至", df.index[-1].strftime('%Y-%m-%d'),"丘關為：",chiu_guan, " 點/元")
         if today_close>=chiu_guan:
             subtitle="今日收盤價 "+str(today_close.round(4))+" 站上或高於丘關 "+str(chiu_guan)
@@ -576,35 +576,35 @@ def stock_analysis_for_selection(ticker_name, start_date, end_date): #, month_li
     try:        
         msg,df1=stock_analysis_chiu_guan(ticker_name, start_date, end_date)
         df1["high_than_chiu_guan"]=df1["Close"]>=df1["midbound"]
-        if df1["high_than_chiu_guan"][-1]==1:
+        if df1["high_than_chiu_guan"].iloc[-1]==1:
             yellow_5.append(ticker_name)    
         else:
             green_6.append(ticker_name)
-        if df1["Volume"][-1]>700000:
+        if df1["Volume"].iloc[-1]>700000:
             #print(ticker_name, "當日成交量大於700張")
             volume_5.append(ticker_name)
-        if df1["Close"][-1]>df1["Close"][-2]:
+        if df1["Close"].iloc[-1]>df1["Close"].iloc[-2]:
             #print("當日漲",(df1["Close"][-1]-df1["Close"][-2]).round(2),"元，或", ((df1["Close"][-1]-df1["Close"][-2])/df1["Close"][-2]*100).round(2),"％")
             ups.append(ticker_name)
         else:
             #print("當日跌",(df1["Close"][-1]-df1["Close"][-2]).round(2),"元，或", ((df1["Close"][-1]-df1["Close"][-2])/df1["Close"][-2]*100).round(2),"％")
             downs.append(ticker_name)
         df0=stock_analysis(ticker_name, start_date, end_date,"1d")
-        if df0["Close"][-1]>df0["SMA60"][-1]:
+        if df0["Close"].iloc[-1]>df0["SMA60"].iloc[-1]:
             #print("衝破季線")
             mma.append(ticker_name)
-        if df0["Close"][-1]<120:
+        if df0["Close"].iloc[-1]<120:
             #print("便宜股")
             cheap.append(ticker_name)
         df2,last_WK_3MA=KDJ_Beta3(ticker_name, start_date, end_date, "1wk")
-        if ((df2["J"][-1]>df2["K"][-1])&(df2["J"][-1]>df2["D"][-1])&(df2["K"][-1]>df2["D"][-1])):
+        if ((df2["J"].iloc[-1]>df2["K"].iloc[-1])&(df2["J"].iloc[-1]>df2["D"].iloc[-1])&(df2["K"].iloc[-1]>df2["D"].iloc[-1])):
             #print(ticker_name,"週KDJ黃金交叉")
             yellow_6.append(ticker_name)
-        if df2["Close"][-1]>df2["SMA55"][-1]:
+        if df2["Close"].iloc[-1]>df2["SMA55"].iloc[-1]:
             #print("衝破年線")
             wma1.append(ticker_name)
         df3,bull_or_bear_boundary=KDJ_Beta3(ticker_name, start_date, end_date, "1mo")
-        if ((df3["J"][-1]>df3["K"][-1])&(df3["J"][-1]>df3["D"][-1])&(df3["K"][-1]>df3["D"][-1])):
+        if ((df3["J"].iloc[-1]>df3["K"].iloc[-1])&(df3["J"].iloc[-1]>df3["D"].iloc[-1])&(df3["K"].iloc[-1]>df3["D"].iloc[-1])):
             #print(ticker_name,"月KDJ黃金交叉")
             yellow_7.append(ticker_name)
         #if df3["SMA2"][-1]>df3["SMA6"][-1]:
@@ -612,17 +612,17 @@ def stock_analysis_for_selection(ticker_name, start_date, end_date): #, month_li
             #mma.append(ticker_name)
         df4=stock_analysis_in_period(ticker_name,"1mo","30m")
         #if ((df4["Close"][-1]>df4["SMA20"][-1])&(df4["SMA20"][-1]>df4["SMA60"][-1])):
-        if (df4["SMA20"][-1]>df4["SMA60"][-1]):
+        if (df4["SMA20"].iloc[-1]>df4["SMA60"].iloc[-1]):
             #print(ticker_name, "30min線強勢")
             shortstrong.append(ticker_name)
-        if df1["Close"][-1]<last_WK_3MA:
+        if df1["Close"].iloc[-1]<last_WK_3MA:
             week_line_check="未通過高於3週線強勢檢核"
 #20250528 請將其列入選股程序中            
         else:
             week_line_check="通過高於3週線強勢檢核"
             week3_check.append(ticker_name)
         print(week_line_check)
-        if df1["Close"][-1]<bull_or_bear_boundary:
+        if df1["Close"].iloc[-1]<bull_or_bear_boundary:
             month_check="月線趨勢仍然疲弱"
         else:
             month_check="月線強勢"
